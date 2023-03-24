@@ -73,7 +73,38 @@
 
 	}
 
-	class Savings extends BankAccount{
+	trait SavingsPlus{
+
+		private $MonthlyFee = 20;
+
+		public $Package = "holiday insurance";
+
+		//Method...
+
+		public function AddedBonus(){
+
+			echo "Hello ". $this->FirstName ." ". $this->LastName ." for &pound;". $this->MonthlyFee ." a month you get ". $this->Package;
+
+		}
+
+	}
+
+	interface AccountPlus{
+
+		public function AddedBonus();
+
+	}
+
+	interface Savers{
+
+		public function OrderNewBook();
+		public function OrderNewDepositBook();
+
+	}
+
+	class Savings extends BankAccount implements AccountPlus, Savers{
+
+		use SavingsPlus;
 
 		public $PocketBook = array();
 
@@ -99,7 +130,9 @@
 
 	}
 
-	class Debit extends BankAccount{
+	class Debit extends BankAccount implements AccountPlus{
+
+		use SavingsPlus;
 
 		private $CardNumber;
 
