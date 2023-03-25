@@ -2,13 +2,7 @@
 
 	require("SubClasses.php");
 
-	$Account1 = new ISA;
-
-	$Account1->APR = 5.0;
-	$Account1->SortCode = "20-20-20";
-	$Account1->FirstName = "Lawrence";
-	$Account1->LastName = "Turton";
-	$Account1->AdditionalServices = "holiday package";
+	$Account1 = new ISA( 35, "holiday package", 5.0, "20-20-20", "Lawrence", "Turton", 1000, true );
 
 	$Account1->Deposit(1000);
 	$Account1->Lock();
@@ -19,13 +13,7 @@
 
 	// Savings Account
 
-	$Account2 = new Savings;
-
-	$Account2->APR = 12.0;
-	$Account2->SortCode = "20-50-20";
-	$Account2->FirstName = "Justin";
-	$Account2->LastName = "Dike";
-	$Account2->Package = "cartoon insurance";
+	$Account2 = new Savings( 50, "cartoon insurance", 12.0, "20-50-20", "Justin", "Dike" );
 
 	$Account2->Deposit(500);
 	$Account2->Lock();
@@ -39,13 +27,7 @@
 
 	// Debit Account
 
-	$Account3 = new Debit;
-
-	$Account3->APR = 0;
-	$Account3->SortCode = "20-50-20";
-	$Account3->FirstName = "Jason";
-	$Account3->LastName = "Bourne";
-	$Account3->Package = "spy insurance";
+	$Account3 = new Debit( 30, "spy insurance", 1234, 0, "20-50-20", "Jason", "Bourne" );
 
 	$Account3->Deposit(15000);
 	$Account3->Lock();
@@ -53,10 +35,33 @@
 	$Account3->Unlock();
 	$Account3->WithDraw(150);
 	
-	$Account3->AddedBonus();
-	$Account3->ChangePin( 1234 );
-	$Account3->Validate();
+	//$Account3->AddedBonus();
 
-	echo json_encode($Account3, JSON_PRETTY_PRINT);
+	// Array
+
+	$AccountList = array( $Account1, $Account2, $Account3 );
+
+	/*foreach( $AccountList as $Account ){
+
+		$print = $Account->FirstName;
+
+		if( $Account instanceof AccountPlus ) {
+
+			$print .= " AddedBonus()";
+
+		}
+
+		if( $Account instanceof Savers ) {
+
+			$print .= " OrderNewBook() OrderNewDepositBook()";
+
+		}
+
+
+		echo $print ."<br/>";
+
+	}*/
+
+	echo $Account1::stat();
 
 ?>

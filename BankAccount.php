@@ -2,7 +2,11 @@
 
 	abstract class BankAccount{
 
-		protected $Balance = 0;
+		const INFO = "Constant in BankAccount class <br/><br/>";
+
+		static public $stat = "static property string <br/><br/>";
+
+		protected $Balance;
 
 		public $APR;
 
@@ -14,9 +18,33 @@
 
 		public $Audit = array();
 
-		protected $Locked = false;
+		protected $Locked;
+
+		//Constructor
+
+		public function __construct( $apr, $sc, $fn, $ln, $bal = 0, $lock = false ){
+
+			$this->Balance = $bal;
+
+			$this->APR = $apr;
+
+			$this->SortCode = $sc;
+
+			$this->FirstName = $fn;
+
+			$this->LastName = $ln;
+
+			$this->Locked = $lock;
+
+		}
 
 		//Methods
+
+		static public function stat(){ 
+
+			echo "This is the method static string ". self::INFO . self::$stat;
+
+		}
 
 		public function WithDraw( $amount ){
 
@@ -75,5 +103,11 @@
 		}
 
 	}
+
+	//echo BankAccount::INFO;
+
+	//echo BankAccount::$stat;
+
+	//echo BankAccount::stat();
 
 ?>

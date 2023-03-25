@@ -4,9 +4,21 @@
 
 	class ISA extends BankAccount{
 
-		public $TimePeroid = 28;
+		private $TimePeriod;
 
 		public $AdditionalServices;
+
+		// Constructor
+
+		public function __construct( $time, $service, $apr, $sc, $fn, $ln, $bal = 0, $lock = false ){
+
+			$this->TimePeriod = $time;
+
+			$this->AdditionalServices = $service;
+
+			parent::__construct( $apr, $sc, $fn, $ln, $bal, $lock );
+
+		}
 
 		//Methods
 
@@ -34,7 +46,7 @@
 
 			}
 
-			if( $lastTransaction === null && $this->Locked === false || $this->Locked === false && $lastTransaction > $this->TimePeroid ){
+			if( $lastTransaction === null && $this->Locked === false || $this->Locked === false && $lastTransaction > $this->TimePeriod ){
 
 				$this->Balance -= $amount;
 
@@ -58,6 +70,8 @@
 				}
 
 			}
+
+			//echo parent::stat();
 
 		}
 
@@ -110,6 +124,18 @@
 
 		public $DepositBook = array();
 
+		// Constructor
+
+		public function __construct( $fee, $package, $apr, $sc, $fn, $ln, $bal = 0, $lock = false ){
+
+			$this->MonthlyFee = $fee;
+
+			$this->Package = $package;
+
+			parent::__construct( $apr, $sc, $fn, $ln, $bal, $lock );
+
+		}
+
 		//Methods
 
 		public function OrderNewBook(){
@@ -136,21 +162,37 @@
 
 		private $CardNumber;
 
-		private $SecuirtyCode;
+		private $SecurityCode;
 
 		private $PinNumber;
 
+		// Constructor
+
+		public function __construct( $fee, $package, $pin, $apr, $sc, $fn, $ln, $bal = 0, $lock = false ){
+
+			$this->MonthlyFee = $fee;
+
+			$this->Package = $package;
+
+			$this->PinNumber = $pin;
+
+			$this->Validate();
+
+			parent::__construct( $apr, $sc, $fn, $ln, $bal, $lock );
+
+		}
+
 		//Methods
 
-		public function Validate(){
+		private function Validate(){
 
 			$valDate = new DateTime();
 
 			$this->CardNumber = rand(1000, 9999) ."-". rand(1000, 9999) ."-". rand(1000, 9999) ."-". rand(1000, 9999);
 
-			$this->SecuirtyCode = rand(100, 999);
+			$this->SecurityCode = rand(100, 999);
 
-			array_push( $this->Audit, array( "VALIDATED CARD", $valDate->format('c'), $this->CardNumber, $this->SecuirtyCode, $this->PinNumber ) );
+			array_push( $this->Audit, array( "VALIDATED CARD", $valDate->format('c'), $this->CardNumber, $this->SecurityCode, $this->PinNumber ) );
 			
 		}
 
